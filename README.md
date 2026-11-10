@@ -1,6 +1,9 @@
 # Standalone FOMOD Installer
 
 A small Windows program that runs a mod's FOMOD installer without a mod manager, then copies the chosen files to destination folder(s) you choose.
+Official Nexus Mods Page: [Standalone FOMOD Installer](https://www.nexusmods.com/site/mods/2578)
+
+# What It Does
 
 1. Choose a mod archive (`.zip`, `.7z`, `.rar`) or an extracted mod folder. You can also drag the archive onto the window, or onto the `.exe`.
 2. Optionally choose the game's data folder. Some FOMODs show or hide options depending on which plugins or files you already have (for example "install the USSEP patch if USSEP is active"). Without it, every plugin counts as not installed. **Detect Game Data Folder** reads the mod's installer and tells you whether it needs one, which game it's for, which folder that is (e.g. `Data` for Skyrim, the game's main folder for Cyberpunk 2077), and where that game is installed (Steam, GOG, Epic or the registry).
