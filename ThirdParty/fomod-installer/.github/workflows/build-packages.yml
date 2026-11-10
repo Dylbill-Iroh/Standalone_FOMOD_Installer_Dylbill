@@ -1,0 +1,154 @@
+name: Build NPM Packages
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-native:
+    strategy:
+      matrix:
+        include:
+          - os: windows-2022
+            platform: win32-x64
+          - os: ubuntu-latest
+            platform: linux-x64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '9.x'
+
+      - name: Install Node.js via Volta
+        uses: volta-cli/action@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build native binaries
+        run: |
+          pnpm --filter @nexusmods/fomod-installer-native build-native
+          pnpm --filter @nexusmods/fomod-installer-native build-napi
+
+      - name: Copy native artifacts to prebuilds dir
+        working-directory: src/ModInstaller.Native.TypeScript
+        shell: bash
+        run: |
+          mkdir -p prebuilds/${{ matrix.platform }}
+          cp build/Release/modinstaller.node prebuilds/${{ matrix.platform }}/modinstaller.napi.node
+          if [ "${{ matrix.platform }}" = "win32-x64" ]; then
+            cp ModInstaller.Native.dll prebuilds/${{ matrix.platform }}/
+            cp ModInstaller.Native.lib prebuilds/${{ matrix.platform }}/
+          elif [ "${{ matrix.platform }}" = "linux-x64" ]; then
+            cp ModInstaller.Native.so prebuilds/${{ matrix.platform }}/
+          fi
+
+      - name: Upload platform artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-${{ matrix.platform }}
+          path: src/ModInstaller.Native.TypeScript/prebuilds/${{ matrix.platform }}/
+
+      - name: Upload native header
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-header-${{ matrix.platform }}
+          path: src/ModInstaller.Native.TypeScript/ModInstaller.Native.h
+
+  package-native:
+    needs: build-native
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install Node.js via Volta
+        uses: volta-cli/action@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build webpack bundle and declarations
+        run: pnpm --filter @nexusmods/fomod-installer-native build-webpack
+
+      - name: Download all platform artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: src/ModInstaller.Native.TypeScript/prebuilds/
+          pattern: native-*
+          merge-multiple: false
+
+      - name: Move platform artifacts into prebuilds
+        working-directory: src/ModInstaller.Native.TypeScript
+        shell: bash
+        run: |
+          # Extract the header (platform-independent) to package root
+          for dir in prebuilds/native-header-*/; do
+            cp "$dir"ModInstaller.Native.h .
+            rm -rf "$dir"
+          done
+          # Move platform prebuilds to the expected dir names
+          for dir in prebuilds/native-*/; do
+            platform=$(basename "$dir" | sed 's/^native-//')
+            mkdir -p "prebuilds/$platform"
+            cp -r "$dir"* "prebuilds/$platform/"
+            rm -rf "$dir"
+          done
+          echo "=== package contents ==="
+          ls -la ModInstaller.Native.h
+          find prebuilds/ -type f
+
+      - name: Pack tarball
+        working-directory: src/ModInstaller.Native.TypeScript
+        run: npm pack
+
+      - name: Upload package tarball
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-package
+          path: src/ModInstaller.Native.TypeScript/*.tgz
+
+  build-ipc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '9.x'
+
+      - name: Install Node.js via Volta
+        uses: volta-cli/action@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install and build IPC
+        run: |
+          pnpm install
+          pnpm --filter @nexusmods/fomod-installer-ipc build
+
+      - name: Pack tarball
+        working-directory: src/ModInstaller.IPC.TypeScript
+        run: npm pack
+
+      - name: Upload package tarball
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipc-package
+          path: src/ModInstaller.IPC.TypeScript/*.tgz

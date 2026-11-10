@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <RootNamespace>Nexus.Client.ModManagement.Scripting.CSharpScript</RootNamespace>
+    <UseWindowsForms>true</UseWindowsForms>
+
+    <Title>C# Script</Title>
+    <Copyright>Copyright ©  2016</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\FomodInstaller.Interface\FomodInstaller.Interface.csproj" />
+    <ProjectReference Include="..\..\Utils\Utils.csproj" />
+    <ProjectReference Include="..\Scripting\Scripting.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+  </ItemGroup>
+  
+</Project>

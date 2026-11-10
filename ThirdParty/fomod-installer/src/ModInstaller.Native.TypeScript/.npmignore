@@ -1,0 +1,16 @@
+.nyc_output
+build
+build-dotnet
+node_modules
+coverage
+src
+src-native
+*.log
+*.tgz
+*.h
+*.lib
+binding.gyp
+CMakeLists.txt
+tsconfig*.json
+webpack.config.js
+build.js

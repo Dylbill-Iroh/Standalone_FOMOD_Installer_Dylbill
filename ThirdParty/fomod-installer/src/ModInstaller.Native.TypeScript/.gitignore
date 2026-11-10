@@ -1,0 +1,12 @@
+.nyc_output
+build
+dist
+node_modules
+src/test/**/**.js
+!src/test/**/_**.js
+!src/**/**.spec.js
+coverage
+*.tgz
+*.log
+ModInstaller.Native.*
+build-dotnet/

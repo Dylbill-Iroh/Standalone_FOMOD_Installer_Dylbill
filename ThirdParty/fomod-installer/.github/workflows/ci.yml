@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+      branches: [ master ]
+  pull_request:
+      branches: [ master ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-2022]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '9.x'
+
+      - run: dotnet --info
+
+      - name: Install Node.js via Volta
+        uses: volta-cli/action@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build all packages
+        run: |
+          pnpm --filter @nexusmods/fomod-installer-ipc build
+          pnpm --filter @nexusmods/fomod-installer-native build

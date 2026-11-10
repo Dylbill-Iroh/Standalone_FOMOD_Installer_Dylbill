@@ -1,0 +1,10 @@
+.nyc_output
+node_modules
+coverage
+src
+*.log
+*.tgz
+tsconfig*.json
+webpack.config.js
+build.js
+cleanup-processes.js

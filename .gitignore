@@ -1,0 +1,9 @@
+bin/
+obj/
+publish/
+.vs/
+*.user
+
+# release zips and the folder they are made from
+Releases/
+*.zip

@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>StandaloneFomodInstaller</AssemblyName>
+    <RootNamespace>StandaloneFomodInstaller</RootNamespace>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <Version>0.1.0</Version>
+    <Product>Standalone FOMOD Installer</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Game list for "Detect Game Data Folder": copied next to the .exe so users can edit it,
+         and built in as a fallback in case the file is missing or broken -->
+    <None Include="Games.xml" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <EmbeddedResource Include="Games.xml" LogicalName="Games.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- .zip / .7z / .rar extraction (MIT) -->
+    <PackageReference Include="SharpCompress" Version="0.38.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Nexus Mods' FOMOD engine (GPL-3.0), XML installers only -->
+    <ProjectReference Include="..\..\ThirdParty\fomod-installer\src\ModInstaller.Adaptor.Typed\ModInstaller.Adaptor.Typed.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Games known to Standalone FOMOD Installer, for "Detect Game Data Folder" and for reading plugins.txt.
+  Edit this file to add or change games; restart the program to use the changes.
+  If this file is missing or can't be read, the program uses its built-in copy of it.
+
+  <Family>: one game series. Detection guesses the family from the mod's installer.
+    name             shown to the user
+    extender         script extender id used in FOMODs (skse, f4se, nvse, fose, ...). Optional.
+    <Master>         a file the installer may check for that only exists for this family (e.g. Skyrim.esm)
+    <FolderMarker>   a folder path in the mod's files that points to this family (whole folder names, '/' between
+                     them, e.g. "skse" or "archive/pc/mod")
+
+  <Game>: one release of the family that can be installed.
+    name                     shown to the user
+    exe                      the game's .exe, relative to its main folder. Used to recognize an install.
+    dataFolder               the folder mods install into, relative to the main folder ("" = the main folder itself).
+                             FOMOD file checks are relative to this folder.
+    pluginsTxtUsesAsterisk   "true" if plugins.txt marks active plugins with '*' (Skyrim SE, Fallout 4, ...),
+                             "false" if it lists only the active plugins (older games). Default true.
+    bethesdaRegistryKey      key under HKLM\SOFTWARE\WOW6432Node\Bethesda Softworks with an "Installed Path" value. Optional.
+    <SteamFolder>            folder name under steamapps\common
+    <PluginsTxtFolder>       folder under %LOCALAPPDATA% that holds plugins.txt (the first one that exists is used)
+    <ImplicitMaster>         a plugin that's always active and not listed in plugins.txt
+
+  Installs are also found through GOG and Epic: any install folder they list that contains the game's exe.
+-->
+<Games>
+  <Family name="Skyrim" extender="skse">
+    <Master>Skyrim.esm</Master>
+    <Master>Update.esm</Master>
+    <Master>Dawnguard.esm</Master>
+    <Master>HearthFires.esm</Master>
+    <Master>Dragonborn.esm</Master>
+    <FolderMarker>skse</FolderMarker>
+
+    <Game name="Skyrim Special Edition / Anniversary Edition" exe="SkyrimSE.exe" dataFolder="Data" bethesdaRegistryKey="Skyrim Special Edition">
+      <SteamFolder>Skyrim Special Edition</SteamFolder>
+      <PluginsTxtFolder>Skyrim Special Edition</PluginsTxtFolder>
+      <PluginsTxtFolder>Skyrim Special Edition GOG</PluginsTxtFolder>
+      <PluginsTxtFolder>Skyrim Special Edition EPIC</PluginsTxtFolder>
+      <ImplicitMaster>Skyrim.esm</ImplicitMaster>
+      <ImplicitMaster>Update.esm</ImplicitMaster>
+      <ImplicitMaster>Dawnguard.esm</ImplicitMaster>
+      <ImplicitMaster>HearthFires.esm</ImplicitMaster>
+      <ImplicitMaster>Dragonborn.esm</ImplicitMaster>
+    </Game>
+
+    <Game name="Skyrim VR" exe="SkyrimVR.exe" dataFolder="Data">
+      <SteamFolder>SkyrimVR</SteamFolder>
+      <PluginsTxtFolder>Skyrim VR</PluginsTxtFolder>
+      <ImplicitMaster>Skyrim.esm</ImplicitMaster>
+      <ImplicitMaster>Update.esm</ImplicitMaster>
+      <ImplicitMaster>Dawnguard.esm</ImplicitMaster>
+      <ImplicitMaster>HearthFires.esm</ImplicitMaster>
+      <ImplicitMaster>Dragonborn.esm</ImplicitMaster>
+      <ImplicitMaster>SkyrimVR.esm</ImplicitMaster>
+    </Game>
+
+    <Game name="Skyrim (original 2011 release)" exe="TESV.exe" dataFolder="Data" pluginsTxtUsesAsterisk="false" bethesdaRegistryKey="Skyrim">
+      <SteamFolder>Skyrim</SteamFolder>
+      <PluginsTxtFolder>Skyrim</PluginsTxtFolder>
+      <ImplicitMaster>Skyrim.esm</ImplicitMaster>
+      <ImplicitMaster>Update.esm</ImplicitMaster>
+    </Game>
+  </Family>
+
+  <Family name="Fallout 4" extender="f4se">
+    <Master>Fallout4.esm</Master>
+    <Master>DLCRobot.esm</Master>
+    <Master>DLCworkshop01.esm</Master>
+    <Master>DLCCoast.esm</Master>
+    <Master>DLCworkshop02.esm</Master>
+    <Master>DLCworkshop03.esm</Master>
+    <Master>DLCNukaWorld.esm</Master>
+    <FolderMarker>f4se</FolderMarker>
+
+    <Game name="Fallout 4" exe="Fallout4.exe" dataFolder="Data" bethesdaRegistryKey="Fallout4">
+      <SteamFolder>Fallout 4</SteamFolder>
+      <PluginsTxtFolder>Fallout4</PluginsTxtFolder>
+      <ImplicitMaster>Fallout4.esm</ImplicitMaster>
+      <ImplicitMaster>DLCRobot.esm</ImplicitMaster>
+      <ImplicitMaster>DLCworkshop01.esm</ImplicitMaster>
+      <ImplicitMaster>DLCCoast.esm</ImplicitMaster>
+      <ImplicitMaster>DLCworkshop02.esm</ImplicitMaster>
+      <ImplicitMaster>DLCworkshop03.esm</ImplicitMaster>
+      <ImplicitMaster>DLCNukaWorld.esm</ImplicitMaster>
+    </Game>
+
+    <Game name="Fallout 4 VR" exe="Fallout4VR.exe" dataFolder="Data">
+      <SteamFolder>Fallout 4 VR</SteamFolder>
+      <PluginsTxtFolder>Fallout4VR</PluginsTxtFolder>
+      <ImplicitMaster>Fallout4.esm</ImplicitMaster>
+      <ImplicitMaster>Fallout4_VR.esm</ImplicitMaster>
+    </Game>
+  </Family>
+
+  <Family name="Fallout: New Vegas" extender="nvse">
+    <Master>FalloutNV.esm</Master>
+    <Master>DeadMoney.esm</Master>
+    <Master>HonestHearts.esm</Master>
+    <Master>OldWorldBlues.esm</Master>
+    <Master>LonesomeRoad.esm</Master>
+    <Master>GunRunnersArsenal.esm</Master>
+    <FolderMarker>nvse</FolderMarker>
+
+    <Game name="Fallout: New Vegas" exe="FalloutNV.exe" dataFolder="Data" pluginsTxtUsesAsterisk="false" bethesdaRegistryKey="FalloutNV">
+      <SteamFolder>Fallout New Vegas</SteamFolder>
+      <PluginsTxtFolder>FalloutNV</PluginsTxtFolder>
+      <ImplicitMaster>FalloutNV.esm</ImplicitMaster>
+    </Game>
+  </Family>
+
+  <Family name="Fallout 3" extender="fose">
+    <Master>Fallout3.esm</Master>
+    <Master>Anchorage.esm</Master>
+    <Master>ThePitt.esm</Master>
+    <Master>BrokenSteel.esm</Master>
+    <Master>PointLookout.esm</Master>
+    <Master>Zeta.esm</Master>
+    <FolderMarker>fose</FolderMarker>
+
+    <Game name="Fallout 3" exe="Fallout3.exe" dataFolder="Data" pluginsTxtUsesAsterisk="false" bethesdaRegistryKey="Fallout3">
+      <SteamFolder>Fallout 3</SteamFolder>
+      <SteamFolder>Fallout 3 goty</SteamFolder>
+      <PluginsTxtFolder>Fallout3</PluginsTxtFolder>
+      <ImplicitMaster>Fallout3.esm</ImplicitMaster>
+    </Game>
+  </Family>
+
+  <Family name="Oblivion" extender="obse">
+    <Master>Oblivion.esm</Master>
+    <FolderMarker>obse</FolderMarker>
+
+    <Game name="Oblivion" exe="Oblivion.exe" dataFolder="Data" pluginsTxtUsesAsterisk="false" bethesdaRegistryKey="Oblivion">
+      <SteamFolder>Oblivion</SteamFolder>
+      <PluginsTxtFolder>Oblivion</PluginsTxtFolder>
+      <ImplicitMaster>Oblivion.esm</ImplicitMaster>
+    </Game>
+  </Family>
+
+  <Family name="Morrowind" extender="mwse">
+    <Master>Morrowind.esm</Master>
+    <Master>Tribunal.esm</Master>
+    <Master>Bloodmoon.esm</Master>
+    <FolderMarker>mwse</FolderMarker>
+
+    <!-- Active plugins are in Morrowind.ini, not plugins.txt, so installed plugins count as active -->
+    <Game name="Morrowind" exe="Morrowind.exe" dataFolder="Data Files" bethesdaRegistryKey="Morrowind">
+      <SteamFolder>Morrowind</SteamFolder>
+    </Game>
+  </Family>
+
+  <Family name="Starfield" extender="sfse">
+    <Master>Starfield.esm</Master>
+    <Master>Constellation.esm</Master>
+    <Master>OldMars.esm</Master>
+    <Master>BlueprintShips-Starfield.esm</Master>
+    <FolderMarker>sfse</FolderMarker>
+
+    <Game name="Starfield" exe="Starfield.exe" dataFolder="Data">
+      <SteamFolder>Starfield</SteamFolder>
+      <PluginsTxtFolder>Starfield</PluginsTxtFolder>
+      <ImplicitMaster>Starfield.esm</ImplicitMaster>
+      <ImplicitMaster>Constellation.esm</ImplicitMaster>
+      <ImplicitMaster>OldMars.esm</ImplicitMaster>
+      <ImplicitMaster>BlueprintShips-Starfield.esm</ImplicitMaster>
+    </Game>
+  </Family>
+
+  <Family name="Cyberpunk 2077">
+    <FolderMarker>archive/pc/mod</FolderMarker>
+    <FolderMarker>r6/scripts</FolderMarker>
+    <FolderMarker>r6/tweaks</FolderMarker>
+    <FolderMarker>red4ext</FolderMarker>
+    <FolderMarker>bin/x64/plugins/cyber_engine_tweaks</FolderMarker>
+
+    <!-- Mods install into the game's main folder -->
+    <Game name="Cyberpunk 2077" exe="bin\x64\Cyberpunk2077.exe" dataFolder="">
+      <SteamFolder>Cyberpunk 2077</SteamFolder>
+    </Game>
+  </Family>
+</Games>

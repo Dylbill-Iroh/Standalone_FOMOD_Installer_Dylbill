@@ -1,0 +1,65 @@
+{
+  "name": "@nexusmods/fomod-installer-native",
+  "version": "0.13.4",
+  "description": "Package of native bindings bundled with TS declarations",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nexus-Mods/fomod-installer.git"
+  },
+  "author": "Nexus-Mods",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/Nexus-Mods/fomod-installer#readme",
+  "bugs": {
+    "url": "https://github.com/Nexus-Mods/fomod-installer/issues"
+  },
+  "files": [
+    "dist/",
+    "prebuilds/",
+    "src-native/",
+    "install.js",
+    "binding.gyp",
+    "ModInstaller.Native.h"
+  ],
+  "scripts": {
+    "install": "node install.js",
+    "clean": "node build.js clear",
+    "native": "node build.js build-native",
+    "build": "node build.js build",
+    "build-native": "node build.js build-native",
+    "build-napi": "node build.js build-napi",
+    "build-webpack": "node build.js build-webpack",
+    "build-content": "node build.js build-content",
+    "test": "node build.js test",
+    "test-build": "node build.js test-build",
+    "test-vitest": "vitest run",
+    "watch:build": "tsc -p tsconfig.json -w"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "binary": {
+    "napi_versions": [
+      8
+    ]
+  },
+  "dependencies": {
+    "node-gyp-build": "^4.8.0"
+  },
+  "devDependencies": {
+    "7zip-bin": "catalog:",
+    "@types/node": "catalog:",
+    "node-7z": "catalog:",
+    "node-addon-api": "catalog:",
+    "node-gyp": "catalog:",
+    "node-stream-zip": "catalog:",
+    "ts-loader": "catalog:",
+    "ts-node": "catalog:",
+    "typescript": "catalog:",
+    "vortex-api": "catalog:",
+    "vitest": "catalog:",
+    "webpack": "catalog:",
+    "webpack-cli": "catalog:"
+  }
+}
